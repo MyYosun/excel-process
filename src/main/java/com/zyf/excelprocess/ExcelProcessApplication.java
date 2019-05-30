@@ -20,6 +20,8 @@ public class ExcelProcessApplication {
 
     public static void main(String[] args) {
 
+        List<Person> personList = getPersonList();
+        System.out.println(personList.size());
 
 
         SpringApplication.run(ExcelProcessApplication.class, args);
@@ -27,7 +29,7 @@ public class ExcelProcessApplication {
 
 
     // 从花名册Excel中读取人员信息
-    public List<Person> getPersonList() {
+    public static List<Person> getPersonList() {
         InputStream in = getResourceAsStream("person.xlsx");
         List<Person> personList = new ArrayList<Person>();
         Person person = new Person();
@@ -43,14 +45,11 @@ public class ExcelProcessApplication {
                     person.setName(name);
                     personList.add(person);
                 }
-
             }
-
         } catch (Exception e) {
             System.out.println("---------程序异常----------");
-            System.out.println(e);
+            e.printStackTrace();
             System.out.println("---------程序异常----------");
-            return null;
         }
         return personList;
     }
