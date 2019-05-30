@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.sun.org.apache.xerces.internal.utils.SecuritySupport.getResourceAsStream;
@@ -20,8 +21,10 @@ public class ExcelProcessApplication {
 
     public static void main(String[] args) {
 
-        List<Person> personList = getPersonList();
-        System.out.println(personList.size());
+//        List<Person> personList = getPersonList();
+//        System.out.println(personList.size());
+
+        getInAndOut();
 
 
         SpringApplication.run(ExcelProcessApplication.class, args);
@@ -38,11 +41,12 @@ public class ExcelProcessApplication {
             Sheet sheet = workbook.getSheetAt(0);
             for (int rowNum = 5; rowNum <= sheet.getLastRowNum(); rowNum++) {
                 Row row = sheet.getRow(rowNum);
-                String id = row.getCell(0).toString();
+                String id = row.getCell(0).getStringCellValue();
                 if (id != null && !"".equals(id)) {
-                    String name = row.getCell(1).toString();
+                    String name = row.getCell(1).getStringCellValue();
                     person.setId(id);
                     person.setName(name);
+                    person.setStatus(0);
                     personList.add(person);
                 }
             }
@@ -52,6 +56,26 @@ public class ExcelProcessApplication {
             System.out.println("---------程序异常----------");
         }
         return personList;
+    }
+
+
+
+    public static void getInAndOut() {
+        InputStream in = getResourceAsStream("inandout.xlsx");
+        try {
+            Workbook workbook = WorkbookFactory.create(in);
+            Sheet sheet = workbook.getSheetAt(0);
+            for (int rowNum = 1; rowNum <= sheet.getLastRowNum(); rowNum++) {
+                Row row = sheet.getRow(rowNum);
+                Date date = row.getCell(0).getDateCellValue();
+                System.out.println("日期: " + date);
+
+            }
+        } catch (Exception e) {
+            System.out.println("---------程序异常----------");
+            e.printStackTrace();
+            System.out.println("---------程序异常----------");
+        }
     }
 
 }
