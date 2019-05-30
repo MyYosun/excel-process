@@ -31,7 +31,7 @@ public class ExcelProcessApplication {
     // 从花名册Excel中读取人员信息
     public static List<Person> getPersonList() {
         InputStream in = getResourceAsStream("person.xlsx");
-        List<Person> personList = new ArrayList<Person>();
+        List<Person> personList = new ArrayList<>();
         Person person = new Person();
         try {
             Workbook workbook = WorkbookFactory.create(in);
