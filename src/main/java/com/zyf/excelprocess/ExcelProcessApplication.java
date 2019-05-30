@@ -41,9 +41,9 @@ public class ExcelProcessApplication {
             Sheet sheet = workbook.getSheetAt(0);
             for (int rowNum = 5; rowNum <= sheet.getLastRowNum(); rowNum++) {
                 Row row = sheet.getRow(rowNum);
-                String id = row.getCell(0).getStringCellValue();
+                String id = row.getCell(0).toString();
                 if (id != null && !"".equals(id)) {
-                    String name = row.getCell(1).getStringCellValue();
+                    String name = row.getCell(1).toString();
                     person.setId(id);
                     person.setName(name);
                     person.setStatus(0);
@@ -60,6 +60,7 @@ public class ExcelProcessApplication {
 
 
 
+    // 获取每日各时段Excel
     public static void getInAndOut() {
         InputStream in = getResourceAsStream("inandout.xlsx");
         try {
@@ -69,7 +70,6 @@ public class ExcelProcessApplication {
                 Row row = sheet.getRow(rowNum);
                 Date date = row.getCell(0).getDateCellValue();
                 System.out.println("日期: " + date);
-
             }
         } catch (Exception e) {
             System.out.println("---------程序异常----------");
